@@ -26,6 +26,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
@@ -124,8 +125,13 @@ class Md2PopupBackground extends Drawable {
 
     private static void pathArcTo(@NonNull Path path, float centerX, float centerY, float radius,
                                   float startAngle, float sweepAngle) {
-        path.arcTo(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
-                startAngle, sweepAngle, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            path.arcTo(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
+                    startAngle, sweepAngle, false);
+        } else {
+            path.arcTo(new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius),
+                    startAngle, sweepAngle, false);
+        }
     }
 
     @Override
@@ -140,13 +146,15 @@ class Md2PopupBackground extends Drawable {
 
     @Override
     public void getOutline(@NonNull Outline outline) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && !mPath.isConvex()) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !mPath.isConvex()) {
             // The outline path must be convex before Q, but we may run into floating point error
             // caused by calculation involving sqrt(2) or OEM implementation difference, so in this
             // case we just omit the shadow instead of crashing.
             super.getOutline(outline);
             return;
         }
-        outline.setConvexPath(mPath);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            outline.setConvexPath(mPath);
+        }
     }
 }

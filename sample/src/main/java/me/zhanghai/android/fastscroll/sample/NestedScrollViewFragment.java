@@ -16,6 +16,7 @@
 
 package me.zhanghai.android.fastscroll.sample;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,9 @@ public class NestedScrollViewFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mScrollView.setOnApplyWindowInsetsListener(new ScrollingViewOnApplyWindowInsetsListener());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            mScrollView.setOnApplyWindowInsetsListener(new ScrollingViewOnApplyWindowInsetsListener());
+        }
         new FastScrollerBuilder(mScrollView).useMd2Style().build();
         mTextView.setText(License.get(mTextView.getContext()));
     }

@@ -18,6 +18,7 @@ package me.zhanghai.android.fastscroll;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -68,7 +69,9 @@ public class PopupStyles {
         popupView.setLayoutParams(layoutParams);
         Context context = popupView.getContext();
         popupView.setBackground(new Md2PopupBackground(context));
-        popupView.setElevation(resources.getDimensionPixelOffset(R.dimen.afs_md2_popup_elevation));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            popupView.setElevation(resources.getDimensionPixelOffset(R.dimen.afs_md2_popup_elevation));
+        }
         popupView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         popupView.setGravity(Gravity.CENTER);
         popupView.setIncludeFontPadding(false);

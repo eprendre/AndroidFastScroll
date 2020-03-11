@@ -17,6 +17,7 @@
 package me.zhanghai.android.fastscroll.sample;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -64,16 +65,18 @@ public class WebViewFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setOnApplyWindowInsetsListener(new ScrollingViewOnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsets onApplyWindowInsets(@NonNull View view,
-                                                    @NonNull WindowInsets insets) {
-                insets = super.onApplyWindowInsets(view, insets);
-                updateWebViewPadding();
-                return insets;
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            mWebView.setOnApplyWindowInsetsListener(new ScrollingViewOnApplyWindowInsetsListener() {
+                @NonNull
+                @Override
+                public WindowInsets onApplyWindowInsets(@NonNull View view,
+                                                        @NonNull WindowInsets insets) {
+                    insets = super.onApplyWindowInsets(view, insets);
+                    updateWebViewPadding();
+                    return insets;
+                }
+            });
+        }
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(@NonNull WebView view, @NonNull String url) {

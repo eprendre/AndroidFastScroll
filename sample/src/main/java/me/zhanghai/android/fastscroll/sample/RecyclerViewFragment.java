@@ -16,6 +16,7 @@
 
 package me.zhanghai.android.fastscroll.sample;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,8 +59,10 @@ public abstract class RecyclerViewFragment extends Fragment {
         mRecyclerView.setLayoutManager(createLayoutManager(mRecyclerView));
         mRecyclerView.setAdapter(new LocaleListAdapter());
         FastScroller fastScroller = createFastScroller(mRecyclerView);
-        mRecyclerView.setOnApplyWindowInsetsListener(
-                new ScrollingViewOnApplyWindowInsetsListener(mRecyclerView, fastScroller));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+//            mRecyclerView.setOnApplyWindowInsetsListener(
+//                    new ScrollingViewOnApplyWindowInsetsListener(mRecyclerView, fastScroller));
+//        }
     }
 
     @NonNull
