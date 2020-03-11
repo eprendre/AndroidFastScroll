@@ -59,10 +59,10 @@ public abstract class RecyclerViewFragment extends Fragment {
         mRecyclerView.setLayoutManager(createLayoutManager(mRecyclerView));
         mRecyclerView.setAdapter(new LocaleListAdapter());
         FastScroller fastScroller = createFastScroller(mRecyclerView);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-//            mRecyclerView.setOnApplyWindowInsetsListener(
-//                    new ScrollingViewOnApplyWindowInsetsListener(mRecyclerView, fastScroller));
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            mRecyclerView.setOnApplyWindowInsetsListener(
+                    new ScrollingViewOnApplyWindowInsetsListener(mRecyclerView, fastScroller));
+        }
     }
 
     @NonNull
